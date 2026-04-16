@@ -32,6 +32,16 @@
 //   - completed: bool
 //   - last_watched: timestamp
 //
+// Collection: content/{contentId}/ratings
+// Document ID: {ratingId} (userId)
+// Fields:
+//   - userId: string (required)
+//   - userName: string (optional)
+//   - userPhoto: string (optional)
+//   - score: number (1-5, required)
+//   - review: string (optional)
+//   - created_at: timestamp (required)
+//
 // ===============================================================
 
 rules_version = '2';
@@ -89,6 +99,12 @@ service cloud.firestore {
              data.completed is bool;
     }
 
+    function isValidRating(data) {
+      return data.userId == request.auth.uid &&
+             data.score is number && data.score >= 1 && data.score <= 5 &&
+             (!('review' in data) || (data.review is string && data.review.size() < 1000));
+    }
+
     // ===============================================================
     // Rules
     // ===============================================================
@@ -115,6 +131,13 @@ service cloud.firestore {
       
       // Only admins can modify the content catalog
       allow write: if isAdmin() && isValidContent(request.resource.data);
+
+      match /ratings/{ratingId} {
+        allow read: if isAuthenticated();
+        // Users can only rate content they've watched (simplified check: must be owner of ratingId)
+        allow create, update: if isOwner(ratingId) && isValidRating(request.resource.data);
+        allow delete: if isOwner(ratingId) || isAdmin();
+      }
     }
 
     // Default deny

@@ -43,6 +43,21 @@
         "last_watched": { "type": "string", "format": "date-time" }
       },
       "required": ["userId", "contentId"]
+    },
+    "Rating": {
+      "title": "Rating",
+      "description": "User rating and review for content",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userPhoto": { "type": "string" },
+        "contentId": { "type": "string" },
+        "score": { "type": "number", "minimum": 1, "maximum": 5 },
+        "review": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "contentId", "score"]
     }
   },
   "firestore": {
@@ -53,6 +68,10 @@
     "/content/{contentId}": {
       "schema": "Content",
       "description": "Public movie and TV show catalog"
+    },
+    "/content/{contentId}/ratings/{ratingId}": {
+      "schema": "Rating",
+      "description": "Public reviews and ratings for content"
     },
     "/users/{userId}/watch_history/{historyId}": {
       "schema": "WatchHistory",
