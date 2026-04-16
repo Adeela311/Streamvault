@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap');
+
+@theme {
+  --font-headline: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-primary-container: var(--theme-primary, #e50914);
+  --color-on-primary-container: #fff7f6;
+  --color-surface: #131313;
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #e9bcb6;
+  --color-surface-container: #201f1f;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353534;
+  --color-primary: var(--theme-accent, #ffb4aa);
+}
+
+:root {
+  --theme-primary: #e50914;
+  --theme-accent: #ffb4aa;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.scrim-radial {
+  background: radial-gradient(circle at 20% 50%, rgba(19, 19, 19, 0.9) 0%, rgba(19, 19, 19, 0.4) 50%, rgba(19, 19, 19, 0.1) 100%);
+}
+
+.scrim-bottom {
+  background: linear-gradient(to top, #131313 0%, transparent 100%);
+}
+
+.primary-gradient {
+  background: linear-gradient(135deg, #e50914 0%, #930007 100%);
+}
+
+.row-fade-edge {
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

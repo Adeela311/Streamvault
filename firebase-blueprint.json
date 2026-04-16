@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Private user information and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "full_name": { "type": "string" },
+        "plan_type": { "type": "string", "enum": ["free", "basic", "premium"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Content": {
+      "title": "Content",
+      "description": "Movie or TV Show metadata",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "content_type": { "type": "string", "enum": ["movie", "tv_show"] },
+        "release_year": { "type": "number" },
+        "age_rating": { "type": "string" },
+        "poster_url": { "type": "string", "format": "uri" },
+        "banner_url": { "type": "string", "format": "uri" },
+        "genres": { "type": "array", "items": { "type": "string" } },
+        "trailer_url": { "type": "string", "format": "uri" },
+        "trending_rank": { "type": "number" }
+      },
+      "required": ["title", "content_type", "poster_url"]
+    },
+    "WatchHistory": {
+      "title": "WatchHistory",
+      "description": "Tracking user progress on content",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "contentId": { "type": "string" },
+        "progress_seconds": { "type": "number" },
+        "completed": { "type": "boolean" },
+        "last_watched": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "contentId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Private user profile data"
+    },
+    "/content/{contentId}": {
+      "schema": "Content",
+      "description": "Public movie and TV show catalog"
+    },
+    "/users/{userId}/watch_history/{historyId}": {
+      "schema": "WatchHistory",
+      "description": "User specific watch progress"
+    }
+  }
+}
